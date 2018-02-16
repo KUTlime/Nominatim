@@ -69,6 +69,7 @@
     export USERNAME=nominatim        #DOCS:    export USERNAME=nominatim
     export USERHOME=/srv/nominatim  #DOCS:    export USERHOME=/srv/nominatim
     echo 'Variable export completed.'
+    read -p "Press [Enter] key to start backup..."
 #
 # **Never, ever run the installation as a root user.** You have been warned.
 #
@@ -76,6 +77,7 @@
 
     sudo chmod a+x $USERHOME
     echo 'Permission to folder added.'
+    read -p "Press [Enter] key to start backup..."
 
 # Setting up PostgreSQL
 # ---------------------
@@ -102,7 +104,7 @@
 # only for reading:
 #
     echo 'Executing postgres createuser -s $USERNAME'
-    sudo -u postgres createuser -s $USERNAME
+    sudo -u postgres createuser -s nominatim
     echo 'Executing postgres createuser apache'
     sudo -u postgres createuser apache
     echo 'Database configuration completed.'
@@ -129,6 +131,7 @@ EOFAPACHECONF
 
     sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
     echo 'Apache webserver config completed.'
+    read -p "Press [Enter] key to start backup..."
 #
 # Then reload apache
 #
@@ -142,9 +145,9 @@ EOFAPACHECONF
 # with a web server accessible from the Internet. At a minimum the
 # following SELinux labeling should be done for Nominatim:
 
-    sudo semanage fcontext -a -t httpd_sys_content_t "$USERHOME/Nominatim/(website|lib|settings)(/.*)?"
-    sudo semanage fcontext -a -t lib_t "$USERHOME/Nominatim/module/nominatim.so"
-    sudo restorecon -R -v $USERHOME/Nominatim
+    sudo semanage fcontext -a -t httpd_sys_content_t "$/srv/nominatim/Nominatim/(website|lib|settings)(/.*)?"
+    sudo semanage fcontext -a -t lib_t "$/srv/nominatim/Nominatim/module/nominatim.so"
+    sudo restorecon -R -v $/srv/nominatim/Nominatim
     echo 'Database install and configuration completed.'
 #
 # Installing Nominatim
@@ -157,7 +160,7 @@ EOFAPACHECONF
 #
 #if [ "x$1" == "xyes" ]; then  #DOCS:    :::sh
     echo 'Obtaining source code for Nominatim'
-    cd $USERHOME
+    cd /srv/nominatim 
     sudo git clone --recursive git://github.com/openstreetmap/Nominatim.git
     cd Nominatim
 #else                               #DOCS:
@@ -175,10 +178,10 @@ fi                                 #DOCS:
 # The code must be built in a separate directory. Create this directory,
 # then configure and build Nominatim in there:
     echo 'Attempting to build Nominatim'
-    cd $USERHOME                   #DOCS:    :::sh
+    cd /srv/nominatim                    #DOCS:    :::sh
     mkdir build
     cd build
-    cmake $USERHOME/Nominatim
+    cmake /srv/nominatim/Nominatim
     make
 
 # You need to create a minimal configuration file that tells nominatim

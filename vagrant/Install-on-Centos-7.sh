@@ -52,7 +52,7 @@
 # we assume this user is called nominatim and the installation will be in
 # /srv/nominatim. To create the user and directory run:
 #
-#     sudo useradd -d /srv/nominatim -s /bin/bash -m nominatim
+    sudo useradd -d /srv/nominatim -s /bin/bash -m nominatim
 #
 # You may find a more suitable location if you wish.
 #

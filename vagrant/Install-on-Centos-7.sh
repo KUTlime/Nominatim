@@ -66,8 +66,8 @@
 # To be able to copy and paste instructions from this manual, export
 # user name and home directory now like this:
 #
-    sudo export USERNAME=nominatim        #DOCS:    export USERNAME=nominatim
-    sudo export USERHOME=/srv/nominatim  #DOCS:    export USERHOME=/srv/nominatim
+    export USERNAME=nominatim        #DOCS:    export USERNAME=nominatim
+    export USERHOME=/srv/nominatim  #DOCS:    export USERHOME=/srv/nominatim
     echo 'Variable export completed.'
 #
 # **Never, ever run the installation as a root user.** You have been warned.
@@ -75,7 +75,7 @@
 # Make sure that system servers can read from the home directory:
 
     sudo chmod a+x $USERHOME
-    sudo 'Permission to folder added.'
+    echo 'Permission to folder added.'
 
 # Setting up PostgreSQL
 # ---------------------
@@ -93,7 +93,7 @@
 # for the parameters to change.
 #
 # Now start the postgresql service after updating this config file.
-
+    echo 'Executing systemctl restart postgresql'
     sudo systemctl restart postgresql
 
 #
@@ -101,8 +101,9 @@
 # the import and another for the webserver which should access the database
 # only for reading:
 #
-
+    echo 'Executing postgres createuser -s $USERNAME'
     sudo -u postgres createuser -s $USERNAME
+    echo 'Executing postgres createuser apache'
     sudo -u postgres createuser apache
     echo 'Database configuration completed.'
 
@@ -114,7 +115,7 @@
 # configuration. Add a separate nominatim configuration to your webserver:
 
 #DOCS:```sh
-sudo tee /etc/httpd/conf.d/nominatim.conf << EOFAPACHECONF
+tee /etc/httpd/conf.d/nominatim.conf << EOFAPACHECONF
 <Directory "$USERHOME/build/website"> #DOCS:<Directory "$USERHOME/Nominatim/build/website">
   Options FollowSymLinks MultiViews
   AddType text/html   .php
@@ -131,9 +132,8 @@ EOFAPACHECONF
 #
 # Then reload apache
 #
-
-    sudo systemctl restart httpd
-
+    echo 'systemctl restart httpd.'
+    sudo systemctl restart httpd 
 #
 # Adding SELinux Security Settings
 # --------------------------------
@@ -155,14 +155,14 @@ EOFAPACHECONF
 #
 # Get the source code from Github and change into the source directory
 #
-if [ "x$1" == "xyes" ]; then  #DOCS:    :::sh
+#if [ "x$1" == "xyes" ]; then  #DOCS:    :::sh
     echo 'Obtaining source code for Nominatim'
     cd $USERHOME
     sudo git clone --recursive git://github.com/openstreetmap/Nominatim.git
     cd Nominatim
-else                               #DOCS:
-    cd $USERHOME/Nominatim         #DOCS:
-fi                                 #DOCS:
+#else                               #DOCS:
+#    cd $USERHOME/Nominatim         #DOCS:
+#fi                                 #DOCS:
 
 # When installing the latest source from github, you also need to
 # download the country grid:
@@ -198,4 +198,4 @@ EOF
     echo 'Downloading Senegal'
     curl -o /tmp/senegal.pbf 'https://download.geofabrik.de/africa/senegal-and-gambia-latest.osm.pbf'
 
-    sudo ./utils/setup.php --osm-file /tmp/senegal.pbf --all 
+    ./utils/setup.php --osm-file /tmp/senegal.pbf --all 

@@ -9,6 +9,7 @@
 # These instructions expect that you have a freshly installed CentOS version 7.
 # Make sure all packages are up-to-date by running:
 #
+    sudo yum install wget
     sudo yum update -y
 
 # The standard CentOS repositories don't contain all the required packages,
@@ -66,7 +67,7 @@
 #
 # Make sure that system servers can read from the home directory:
 
-    chmod a+x $USERHOME
+    sudo chmod a+x $USERHOME
 
 # Setting up PostgreSQL
 # ---------------------

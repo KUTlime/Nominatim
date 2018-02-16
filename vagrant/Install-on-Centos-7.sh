@@ -60,7 +60,7 @@
 # user name and home directory now like this:
 #
     export USERNAME=nominatim        #DOCS:    export USERNAME=nominatim
-    export USERHOME=/home/nominatim  #DOCS:    export USERHOME=/srv/nominatim
+    export USERHOME=/srv/nominatim  #DOCS:    export USERHOME=/srv/nominatim
 #
 # **Never, ever run the installation as a root user.** You have been warned.
 #

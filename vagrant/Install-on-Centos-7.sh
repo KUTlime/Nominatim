@@ -59,8 +59,8 @@
 # To be able to copy and paste instructions from this manual, export
 # user name and home directory now like this:
 #
-    export USERNAME=vagrant        #DOCS:    export USERNAME=nominatim
-    export USERHOME=/home/vagrant  #DOCS:    export USERHOME=/srv/nominatim
+    export USERNAME=nominatim        #DOCS:    export USERNAME=nominatim
+    export USERHOME=/home/nominatim  #DOCS:    export USERHOME=/srv/nominatim
 #
 # **Never, ever run the installation as a root user.** You have been warned.
 #
@@ -183,3 +183,6 @@ EOF
 
 # Nominatim is now ready to use. Continue with
 # [importing a database from OSM data](../admin/Import-and-Update.md).
+curl -o /tmp/senegal.pbf 'https://download.geofabrik.de/africa/senegal-and-gambia-latest.osm.pbf'
+
+./utils/setup.php --osm-file /tmp/senegal.pbf --all 

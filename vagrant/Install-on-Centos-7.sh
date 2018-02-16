@@ -113,7 +113,7 @@ sudo tee /etc/httpd/conf.d/nominatim.conf << EOFAPACHECONF
   Require all granted
 </Directory>
 
-Alias /nominatim $USERHOME/build/website  #DOCS:Alias /nominatim $USERHOME/Nominatim/build/website
+sudo Alias /nominatim $USERHOME/build/website  #DOCS:Alias /nominatim $USERHOME/Nominatim/build/website
 EOFAPACHECONF
 #DOCS:```
 
@@ -148,7 +148,7 @@ sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
 #
 if [ "x$1" == "xyes" ]; then  #DOCS:    :::sh
     cd $USERHOME
-    git clone --recursive git://github.com/openstreetmap/Nominatim.git
+    sudo git clone --recursive git://github.com/openstreetmap/Nominatim.git
     cd Nominatim
 else                               #DOCS:
     cd $USERHOME/Nominatim         #DOCS:
@@ -158,7 +158,7 @@ fi                                 #DOCS:
 # download the country grid:
 
 if [ ! -f data/country_osm_grid.sql.gz ]; then       #DOCS:    :::sh
-    wget -O data/country_osm_grid.sql.gz https://www.nominatim.org/data/country_grid.sql.gz
+    sudo wget -O data/country_osm_grid.sql.gz https://www.nominatim.org/data/country_grid.sql.gz
 fi                                 #DOCS:
 
 # The code must be built in a separate directory. Create this directory,

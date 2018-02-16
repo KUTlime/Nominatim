@@ -9,7 +9,7 @@
 # These instructions expect that you have a freshly installed CentOS version 7.
 # Make sure all packages are up-to-date by running:
 #
-    sudo yum install wget
+    sudo yum install wget -y
     sudo yum update -y
 
 # The standard CentOS repositories don't contain all the required packages,

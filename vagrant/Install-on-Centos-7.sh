@@ -169,11 +169,11 @@ fi                                 #DOCS:
 # The code must be built in a separate directory. Create this directory,
 # then configure and build Nominatim in there:
     echo '###### Attempting to build Nominatim'
-    sudo cd /srv/nominatim/Nominatim                    #DOCS:    :::sh
-    sudo mkdir build
-    sudo cd build
-    sudo cmake /srv/nominatim/Nominatim
-    sudo make
+#    sudo cd /srv/nominatim/Nominatim                    #DOCS:    :::sh
+#    sudo mkdir build
+#    sudo cd build
+#    sudo cmake /srv/nominatim/Nominatim
+#    sudo make
 
 # You need to create a minimal configuration file that tells nominatim
 # the name of your webserver user and the URL of the website:
@@ -192,6 +192,6 @@ EOF
     echo 'Downloading Senegal'
     curl -o /tmp/senegal.pbf 'https://download.geofabrik.de/africa/senegal-and-gambia-latest.osm.pbf'
 
-    su nominatim
-    cd /srv/nominatim/Nominatim/build
-    ./utils/setup.php --osm-file /tmp/senegal.pbf --all 
+#    su nominatim
+#    cd /srv/nominatim/Nominatim/build
+#    ./utils/setup.php --osm-file /tmp/senegal.pbf --all 

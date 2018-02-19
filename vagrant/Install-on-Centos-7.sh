@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Echo for user
     echo '###### Begining of the prerequisites'
 #
@@ -46,9 +45,6 @@
 # The following steps are meant to configure a fresh CentOS installation
 # for use with Nominatim. You may skip some of the steps if you have your
 # OS already configured.
-# Echo for user
-# -------------
-    echo '###### Begining of system configuration'
 #
 # Creating Dedicated User Accounts
 # --------------------------------
@@ -68,17 +64,14 @@
 # To be able to copy and paste instructions from this manual, export
 # user name and home directory now like this:
 #
-# Edit: It seems that this export doesn't work correctly.
-#    export USERNAME=nominatim        #DOCS:    export USERNAME=nominatim
-#    export USERHOME=/srv/nominatim  #DOCS:    export USERHOME=/srv/nominatim
-    echo 'Variable export completed.'
+    export USERNAME=nominatim        #DOCS:    export USERNAME=nominatim
+    export USERHOME=/srv/nominatim  #DOCS:    export USERHOME=/srv/nominatim
 #
 # **Never, ever run the installation as a root user.** You have been warned.
 #
 # Make sure that system servers can read from the home directory:
 
-    sudo chmod a+x /srv/nominatim
-    echo '###### Permission to folder added.'
+   sudo chmod a+x /srv/nominatim
 
 # Setting up PostgreSQL
 # ---------------------
@@ -96,16 +89,18 @@
 # for the parameters to change.
 #
 # Now start the postgresql service after updating this config file.
-#
+
     sudo systemctl restart postgresql
+
 #
 # Finally, we need to add two postgres users: one for the user that does
 # the import and another for the webserver which should access the database
 # only for reading:
 #
+
     sudo -u postgres createuser -s nominatim
     sudo -u postgres createuser apache
-    echo '###### Database configuration completed.'
+
 #
 # Setting up the Apache Webserver
 # -------------------------------
@@ -114,24 +109,26 @@
 # configuration. Add a separate nominatim configuration to your webserver:
 
 #DOCS:```sh
-tee /etc/httpd/conf.d/nominatim.conf << EOFAPACHECONF
-<Directory "/srv/nominatim/build/website"> #DOCS:<Directory "/srv/nominatim/Nominatim/build/website">
+sudo tee /etc/httpd/conf.d/nominatim.conf << EOFAPACHECONF
+<Directory "/srv/nominatim/build/website"> #DOCS:<Directory "$USERHOME/Nominatim/build/website">
   Options FollowSymLinks MultiViews
   AddType text/html   .php
   DirectoryIndex search.php
   Require all granted
 </Directory>
 
-Alias /nominatim /srv/nominatim/build/website  #DOCS:Alias /nominatim /srv/nominatim/Nominatim/build/website
+Alias /nominatim /srv/nominatim/build/website  #DOCS:Alias /nominatim $USERHOME/Nominatim/build/website
 EOFAPACHECONF
 #DOCS:```
 
-    sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
-    echo '###### Apache webserver config completed.'
+sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
+
 #
 # Then reload apache
 #
-    sudo systemctl restart httpd 
+
+    sudo systemctl restart httpd
+
 #
 # Adding SELinux Security Settings
 # --------------------------------
@@ -142,8 +139,8 @@ EOFAPACHECONF
 
     sudo semanage fcontext -a -t httpd_sys_content_t "/srv/nominatim/Nominatim/(website|lib|settings)(/.*)?"
     sudo semanage fcontext -a -t lib_t "/srv/nominatim/Nominatim/module/nominatim.so"
-    sudo restorecon -R -v $/srv/nominatim/Nominatim
-    echo '###### Database install and configuration completed.'
+    sudo restorecon -R -v /srv/nominatim/Nominatim
+
 #
 # Installing Nominatim
 # ====================
@@ -153,26 +150,29 @@ EOFAPACHECONF
 #
 # Get the source code from Github and change into the source directory
 #
+#if [ "x$1" == "xyes" ]; then  #DOCS:    :::sh
     cd /srv/nominatim
-    sudo git clone --recursive git://github.com/openstreetmap/Nominatim.git
-    cd Nominatim
-    
+    git clone --recursive git://github.com/openstreetmap/Nominatim.git
+#    cd Nominatim
+#else                               #DOCS:
+    cd /srv/nominatim/Nominatim     #DOCS:
+#fi                                 #DOCS:
+
 # When installing the latest source from github, you also need to
 # download the country grid:
 
 if [ ! -f data/country_osm_grid.sql.gz ]; then       #DOCS:    :::sh
-    echo '###### Obtaining country grid'
-    sudo wget -O data/country_osm_grid.sql.gz https://www.nominatim.org/data/country_grid.sql.gz
+    wget -O data/country_osm_grid.sql.gz https://www.nominatim.org/data/country_grid.sql.gz
 fi                                 #DOCS:
 
 # The code must be built in a separate directory. Create this directory,
 # then configure and build Nominatim in there:
-    echo '###### Attempting to build Nominatim'
-#    sudo cd /srv/nominatim/Nominatim                    #DOCS:    :::sh
-#    sudo mkdir build
-#    sudo cd build
-#    sudo cmake /srv/nominatim/Nominatim
-#    sudo make
+
+    cd /srv/nominatim                   #DOCS:    :::sh
+    sudo mkdir build
+    sudo cd build
+    sudo cmake $USERHOME/Nominatim
+    sudo make
 
 # You need to create a minimal configuration file that tells nominatim
 # the name of your webserver user and the URL of the website:
@@ -191,6 +191,6 @@ EOF
     echo 'Downloading Senegal'
     curl -o /tmp/senegal.pbf 'https://download.geofabrik.de/africa/senegal-and-gambia-latest.osm.pbf'
 
-#    su nominatim
-#    cd /srv/nominatim/Nominatim/build
-#    ./utils/setup.php --osm-file /tmp/senegal.pbf --all 
+    su nominatim
+    cd /srv/nominatim/Nominatim/build
+    ./utils/setup.php --osm-file /tmp/senegal.pbf --all 

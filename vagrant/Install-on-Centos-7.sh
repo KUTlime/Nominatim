@@ -171,7 +171,7 @@ fi                                 #DOCS:
     cd /srv/nominatim                   #DOCS:    :::sh
     sudo mkdir build
     sudo cd build
-    sudo cmake $USERHOME/Nominatim
+    sudo cmake /srv/nominatim/Nominatim
     sudo make
 
 # You need to create a minimal configuration file that tells nominatim

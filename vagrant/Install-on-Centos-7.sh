@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Echo for user
-    echo 'Begining of the prerequisites'
+    echo '###### Begining of the prerequisites'
 #
 # *Note:* these installation instructions are also available in executable
 #         form for use with vagrant under `vagrant/Install-on-Centos-7.sh`.
@@ -49,7 +49,7 @@
 # OS already configured.
 # Echo for user
 # -------------
-    echo 'Begining of system configuration'
+    echo '###### Begining of system configuration'
 #
 # Creating Dedicated User Accounts
 # --------------------------------
@@ -62,7 +62,7 @@
     sudo useradd -d /srv/nominatim -s /bin/bash -m nominatim
     sudo passwd nominatim
     usermod -aG wheel nominatim
-    echo 'User nominatim added.'
+    echo '###### User nominatim added.'
 #
 # You may find a more suitable location if you wish.
 #
@@ -79,7 +79,7 @@
 # Make sure that system servers can read from the home directory:
 
     sudo chmod a+x /srv/nominatim
-    echo 'Permission to folder added.'
+    echo '###### Permission to folder added.'
 
 # Setting up PostgreSQL
 # ---------------------
@@ -106,7 +106,7 @@
 #
     sudo -u postgres createuser -s nominatim
     sudo -u postgres createuser apache
-    echo 'Database configuration completed.'
+    echo '###### Database configuration completed.'
 #
 # Setting up the Apache Webserver
 # -------------------------------
@@ -128,8 +128,7 @@ EOFAPACHECONF
 #DOCS:```
 
     sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
-    echo 'Apache webserver config completed.'
-    read -p "Press [Enter] key to start backup..."
+    echo '###### Apache webserver config completed.'
 #
 # Then reload apache
 #
@@ -145,7 +144,7 @@ EOFAPACHECONF
     sudo semanage fcontext -a -t httpd_sys_content_t "/srv/nominatim/Nominatim/(website|lib|settings)(/.*)?"
     sudo semanage fcontext -a -t lib_t "/srv/nominatim/Nominatim/module/nominatim.so"
     sudo restorecon -R -v $/srv/nominatim/Nominatim
-    echo 'Database install and configuration completed.'
+    echo '###### Database install and configuration completed.'
 #
 # Installing Nominatim
 # ====================
@@ -163,17 +162,17 @@ EOFAPACHECONF
 # download the country grid:
 
 if [ ! -f data/country_osm_grid.sql.gz ]; then       #DOCS:    :::sh
-    echo 'Obtaining country grid'
+    echo '###### Obtaining country grid'
     sudo wget -O data/country_osm_grid.sql.gz https://www.nominatim.org/data/country_grid.sql.gz
 fi                                 #DOCS:
 
 # The code must be built in a separate directory. Create this directory,
 # then configure and build Nominatim in there:
-    echo 'Attempting to build Nominatim'
+    echo '###### Attempting to build Nominatim'
     sudo cd /srv/nominatim/Nominatim                    #DOCS:    :::sh
     sudo mkdir build
     sudo cd /srv/nominatim/Nominatim/build
-    sudo cmake /srv/nominatim/Nominatim
+    sudo cmake ..shou
     sudo make
 
 # You need to create a minimal configuration file that tells nominatim

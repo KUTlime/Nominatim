@@ -171,8 +171,8 @@ fi                                 #DOCS:
     echo '###### Attempting to build Nominatim'
     sudo cd /srv/nominatim/Nominatim                    #DOCS:    :::sh
     sudo mkdir build
-    sudo cd /srv/nominatim/Nominatim/build
-    sudo cmake ..shou
+    sudo cd build
+    sudo cmake /srv/nominatim/Nominatim
     sudo make
 
 # You need to create a minimal configuration file that tells nominatim

@@ -192,5 +192,6 @@ EOF
     curl -o /tmp/senegal.pbf 'https://download.geofabrik.de/africa/senegal-and-gambia-latest.osm.pbf'
 
     su nominatim
-    cd /srv/nominatim/Nominatim/build
-    sudo /srv/nominatim/Nominatim/build/utils/setup.php --osm-file /tmp/senegal.pbf --all 
+    cd /srv/nominatim/build
+    sudo chmod a+x /srv/nominatim
+    /srv/nominatim/utils/setup.php --osm-file /tmp/senegal.pbf --all 

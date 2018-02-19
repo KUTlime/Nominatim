@@ -13,7 +13,6 @@
 # Make sure all packages are up-to-date by running:
 #
     sudo yum install wget -y
-    sudo yum update -y
 
 # The standard CentOS repositories don't contain all the required packages,
 # you need to enable the EPEL repository as well. To enable it on CentOS,
@@ -39,7 +38,7 @@
                         php-phpunit-PHPUnit
     pip3 install --user behave nose pytidylib psycopg2
     sudo pear install PHP_CodeSniffer
-
+    sudo yum update -y
 #
 # System Configuration
 # ====================

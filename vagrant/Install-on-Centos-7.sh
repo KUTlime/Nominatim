@@ -167,7 +167,7 @@ fi                                 #DOCS:
 
 # The code must be built in a separate directory. Create this directory,
 # then configure and build Nominatim in there:
-
+    echo '###### Attempting to build Nominatim'
     cd /srv/nominatim                   #DOCS:    :::sh
     sudo mkdir build
     sudo cd build
@@ -188,9 +188,9 @@ EOF
 
 # Nominatim is now ready to use. Continue with
 # [importing a database from OSM data](../admin/Import-and-Update.md).
-    echo 'Downloading Senegal'
+    echo '###### Downloading Senegal'
     curl -o /tmp/senegal.pbf 'https://download.geofabrik.de/africa/senegal-and-gambia-latest.osm.pbf'
 
     su nominatim
     cd /srv/nominatim/Nominatim/build
-    ./utils/setup.php --osm-file /tmp/senegal.pbf --all 
+    sudo /srv/nominatim/Nominatim/build/utils/setup.php --osm-file /tmp/senegal.pbf --all 

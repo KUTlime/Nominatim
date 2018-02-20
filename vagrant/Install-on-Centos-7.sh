@@ -11,6 +11,7 @@
 # These instructions expect that you have a freshly installed CentOS version 7.
 # Make sure all packages are up-to-date by running:
 #
+    sudo yum update -y
     sudo yum install wget -y
 
 # The standard CentOS repositories don't contain all the required packages,
@@ -21,18 +22,19 @@
 
 # Now you can install all packages needed for Nominatim:
 
-#DOCS:    :::sh
-    sudo yum install -y git cmake make gcc gcc-c++ libtool policycoreutils-python \
-                        php-pgsql php php-pear php-pear-DB php-intl libpqxx-devel \
-                        proj-epsg bzip2-devel proj-devel libxml2-devel boost-devel \
-                        expat-devel zlib-devel
-                        
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/pgdg-centos96-9.6-3.noarch.rpm
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-libs-9.6.7-1PGDG.rhel7.x86_64.rpm
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-server-9.6.7-1PGDG.rhel7.x86_64.rpm
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-contrib-9.6.7-1PGDG.rhel7.x86_64.rpm
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-devel-9.6.7-1PGDG.rhel7.x86_64.rpm
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgis24_96-2.4.3-1.rhel7.x86_64.rpm
+
+#DOCS:    :::sh
+    sudo yum install -y git cmake make gcc gcc-c++ libtool policycoreutils-python \
+                        php-pgsql php php-pear php-pear-DB php-intl libpqxx-devel \
+                        proj-epsg bzip2-devel proj-devel libxml2-devel boost-devel \
+                        expat-devel zlib-devel
+                        
 
 # If you want to run the test suite, you need to install the following
 # additional packages:
@@ -42,8 +44,8 @@
                         php-phpunit-PHPUnit
     pip3 install --user behave nose pytidylib psycopg2
     sudo pear install PHP_CodeSniffer
-    sudo pip install --upgrade pip
-    sudo yum update -y
+    sudo pip3 install -U pip
+    
 #
 # System Configuration
 # ====================

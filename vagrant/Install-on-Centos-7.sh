@@ -22,8 +22,8 @@
 # Now you can install all packages needed for Nominatim:
 
 #DOCS:    :::sh
-    sudo yum install -y postgresql-server postgresql-contrib postgresql-devel \
-                        postgis postgis-utils \
+    sudo yum install -y postgresql-server-dev-9.6 postgresql-9.6-postgis-2.3 \
+                        postgresql-contrib-9.6 \
                         git cmake make gcc gcc-c++ libtool policycoreutils-python \
                         php-pgsql php php-pear php-pear-DB php-intl libpqxx-devel \
                         proj-epsg bzip2-devel proj-devel libxml2-devel boost-devel \

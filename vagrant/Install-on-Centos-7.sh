@@ -1,6 +1,4 @@
 #!/bin/bash
-# Echo for user
-    echo '###### Begining of the prerequisites'
 #
 # *Note:* these installation instructions are also available in executable
 #         form for use with vagrant under `vagrant/Install-on-Centos-7.sh`.
@@ -13,7 +11,6 @@
 #
     sudo yum update -y
     sudo yum install wget -y
-
 # The standard CentOS repositories don't contain all the required packages,
 # you need to enable the EPEL repository as well. To enable it on CentOS,
 # install the epel-release RPM by running:
@@ -22,19 +19,13 @@
 
 # Now you can install all packages needed for Nominatim:
 
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-libs-9.6.7-1PGDG.rhel7.x86_64.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-server-9.6.7-1PGDG.rhel7.x86_64.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-contrib-9.6.7-1PGDG.rhel7.x86_64.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-devel-9.6.7-1PGDG.rhel7.x86_64.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgis24_96-2.4.3-1.rhel7.x86_64.rpm
-
 #DOCS:    :::sh
-    sudo yum install -y git cmake make gcc gcc-c++ libtool policycoreutils-python \
+    sudo yum install -y postgresql-server postgresql-contrib postgresql-devel \
+                        postgis postgis-utils \
+                        git cmake make gcc gcc-c++ libtool policycoreutils-python \
                         php-pgsql php php-pear php-pear-DB php-intl libpqxx-devel \
                         proj-epsg bzip2-devel proj-devel libxml2-devel boost-devel \
                         expat-devel zlib-devel
-                        
 
 # If you want to run the test suite, you need to install the following
 # additional packages:
@@ -44,8 +35,7 @@
                         php-phpunit-PHPUnit
     pip3 install --user behave nose pytidylib psycopg2
     sudo pear install PHP_CodeSniffer
-    sudo pip3 install -U pip
-    
+
 #
 # System Configuration
 # ====================
@@ -62,24 +52,21 @@
 # we assume this user is called nominatim and the installation will be in
 # /srv/nominatim. To create the user and directory run:
 #
-    sudo useradd -d /srv/nominatim -s /bin/bash -m nominatim
-    sudo passwd nominatim
-    usermod -aG wheel nominatim
-    echo '###### User nominatim added.'
+#     sudo useradd -d /srv/nominatim -s /bin/bash -m nominatim
 #
 # You may find a more suitable location if you wish.
 #
 # To be able to copy and paste instructions from this manual, export
 # user name and home directory now like this:
 #
-    export USERNAME=nominatim        #DOCS:    export USERNAME=nominatim
-    export USERHOME=/srv/nominatim  #DOCS:    export USERHOME=/srv/nominatim
+    export USERNAME=gina        #DOCS:    export USERNAME=nominatim
+    export USERHOME=/home/gina  #DOCS:    export USERHOME=/srv/nominatim
 #
 # **Never, ever run the installation as a root user.** You have been warned.
 #
 # Make sure that system servers can read from the home directory:
 
-   sudo chmod a+x /srv/nominatim
+    chmod a+x $USERHOME
 
 # Setting up PostgreSQL
 # ---------------------
@@ -106,7 +93,7 @@
 # only for reading:
 #
 
-    sudo -u postgres createuser -s nominatim
+    sudo -u postgres createuser -s $USERNAME
     sudo -u postgres createuser apache
 
 #
@@ -118,14 +105,14 @@
 
 #DOCS:```sh
 sudo tee /etc/httpd/conf.d/nominatim.conf << EOFAPACHECONF
-<Directory "/srv/nominatim/build/website"> #DOCS:<Directory "/srv/nominatim/Nominatim/build/website">
+<Directory "$USERHOME/build/website"> #DOCS:<Directory "$USERHOME/Nominatim/build/website">
   Options FollowSymLinks MultiViews
   AddType text/html   .php
   DirectoryIndex search.php
   Require all granted
 </Directory>
 
-Alias /nominatim /srv/nominatim/build/website  #DOCS:Alias /nominatim /srv/nominatim/Nominatim/build/website
+Alias /nominatim $USERHOME/build/website  #DOCS:Alias /nominatim $USERHOME/Nominatim/build/website
 EOFAPACHECONF
 #DOCS:```
 
@@ -145,9 +132,9 @@ sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
 # with a web server accessible from the Internet. At a minimum the
 # following SELinux labeling should be done for Nominatim:
 
-    sudo semanage fcontext -a -t httpd_sys_content_t "/srv/nominatim/Nominatim/(website|lib|settings)(/.*)?"
-    sudo semanage fcontext -a -t lib_t "/srv/nominatim/Nominatim/module/nominatim.so"
-    sudo restorecon -R -v /srv/nominatim/Nominatim
+    sudo semanage fcontext -a -t httpd_sys_content_t "$USERHOME/Nominatim/(website|lib|settings)(/.*)?"
+    sudo semanage fcontext -a -t lib_t "$USERHOME/Nominatim/module/nominatim.so"
+    sudo restorecon -R -v $USERHOME/Nominatim
 
 #
 # Installing Nominatim
@@ -159,11 +146,11 @@ sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
 # Get the source code from Github and change into the source directory
 #
 #if [ "x$1" == "xyes" ]; then  #DOCS:    :::sh
-    cd /srv/nominatim
+    cd $USERHOME
     git clone --recursive git://github.com/openstreetmap/Nominatim.git
 #    cd Nominatim
 #else                               #DOCS:
-    cd /srv/nominatim/Nominatim     #DOCS:
+    cd $USERHOME/Nominatim         #DOCS:
 #fi                                 #DOCS:
 
 # When installing the latest source from github, you also need to
@@ -175,12 +162,12 @@ fi                                 #DOCS:
 
 # The code must be built in a separate directory. Create this directory,
 # then configure and build Nominatim in there:
-    echo '###### Attempting to build Nominatim'
-    cd /srv/nominatim                   #DOCS:    :::sh
-    sudo mkdir build
-    sudo cd build
-    sudo cmake /srv/nominatim/Nominatim
-    sudo make
+
+    cd $USERHOME                   #DOCS:    :::sh
+    mkdir build
+    cd build
+    cmake $USERHOME/Nominatim
+    make
 
 # You need to create a minimal configuration file that tells nominatim
 # the name of your webserver user and the URL of the website:
@@ -196,10 +183,9 @@ EOF
 
 # Nominatim is now ready to use. Continue with
 # [importing a database from OSM data](../admin/Import-and-Update.md).
+
     echo '###### Downloading Senegal'
     curl -o /tmp/senegal.pbf 'https://download.geofabrik.de/africa/senegal-and-gambia-latest.osm.pbf'
 
-    su nominatim
-    cd /srv/nominatim/build
-    sudo chmod a+x /srv/nominatim
-    /srv/nominatim/utils/setup.php --osm-file /tmp/senegal.pbf --all 
+    cd $USERHOME/build
+ #   /srv/nominatim/utils/setup.php --osm-file /tmp/senegal.pbf --all 

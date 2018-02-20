@@ -37,6 +37,7 @@
                         php-phpunit-PHPUnit
     pip3 install --user behave nose pytidylib psycopg2
     sudo pear install PHP_CodeSniffer
+    sudo pip install --upgrade pip
     sudo yum update -y
 #
 # System Configuration
@@ -110,14 +111,14 @@
 
 #DOCS:```sh
 sudo tee /etc/httpd/conf.d/nominatim.conf << EOFAPACHECONF
-<Directory "/srv/nominatim/build/website"> #DOCS:<Directory "$USERHOME/Nominatim/build/website">
+<Directory "/srv/nominatim/build/website"> #DOCS:<Directory "/srv/nominatim/Nominatim/build/website">
   Options FollowSymLinks MultiViews
   AddType text/html   .php
   DirectoryIndex search.php
   Require all granted
 </Directory>
 
-Alias /nominatim /srv/nominatim/build/website  #DOCS:Alias /nominatim $USERHOME/Nominatim/build/website
+Alias /nominatim /srv/nominatim/build/website  #DOCS:Alias /nominatim /srv/nominatim/Nominatim/build/website
 EOFAPACHECONF
 #DOCS:```
 

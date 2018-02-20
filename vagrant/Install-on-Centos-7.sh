@@ -35,6 +35,7 @@
                         php-phpunit-PHPUnit
     pip3 install --user behave nose pytidylib psycopg2
     sudo pear install PHP_CodeSniffer
+    sudo pip3 install -U pip
 
 #
 # System Configuration
@@ -66,7 +67,7 @@
 #
 # Make sure that system servers can read from the home directory:
 
-    chmod a+x $USERHOME
+    sudo chmod a+x $USERHOME
 
 # Setting up PostgreSQL
 # ---------------------
@@ -116,7 +117,7 @@ Alias /nominatim $USERHOME/build/website  #DOCS:Alias /nominatim $USERHOME/Nomin
 EOFAPACHECONF
 #DOCS:```
 
-sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
+    sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
 
 #
 # Then reload apache
@@ -147,7 +148,7 @@ sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
 #
 #if [ "x$1" == "xyes" ]; then  #DOCS:    :::sh
     cd $USERHOME
-    git clone --recursive git://github.com/openstreetmap/Nominatim.git
+    sudo git clone --recursive git://github.com/openstreetmap/Nominatim.git
 #    cd Nominatim
 #else                               #DOCS:
     cd $USERHOME/Nominatim         #DOCS:
@@ -173,7 +174,7 @@ fi                                 #DOCS:
 # the name of your webserver user and the URL of the website:
 
 #DOCS:```sh
-tee settings/local.php << EOF
+sudo tee settings/local.php << EOF
 <?php
  @define('CONST_Database_Web_User', 'apache');
  @define('CONST_Website_BaseURL', '/nominatim/');

@@ -189,4 +189,4 @@ EOF
     curl -o /tmp/senegal.pbf 'https://download.geofabrik.de/africa/senegal-and-gambia-latest.osm.pbf'
 
     cd $USERHOME/build
- #   /srv/nominatim/utils/setup.php --osm-file /tmp/senegal.pbf --all 
+    ./utils/setup.php --osm-file /tmp/senegal.pbf --all 

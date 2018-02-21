@@ -20,8 +20,8 @@
 # Now you can install all packages needed for Nominatim:
 
 #DOCS:    :::sh
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-9.6.7-1PGDG.rhel7.x86_64.rpm
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-libs-9.6.7-1PGDG.rhel7.x86_64.rpm
+    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-9.6.7-1PGDG.rhel7.x86_64.rpm
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-server-9.6.7-1PGDG.rhel7.x86_64.rpm
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-contrib-9.6.7-1PGDG.rhel7.x86_64.rpm
     sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-devel-9.6.7-1PGDG.rhel7.x86_64.rpm

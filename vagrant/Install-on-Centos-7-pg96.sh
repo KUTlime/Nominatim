@@ -22,16 +22,7 @@
 #DOCS:    :::sh
     sudo yum -y localinstall https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/pgdg-centos96-9.6-3.noarch.rpm
     sudo yum -y install postgresql96-server postgresql96-contrib postgresql96-devel postgis24_96 postgis24_96-utils
-    
-    
-    
-#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-libs-9.6.7-1PGDG.rhel7.x86_64.rpm
-#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-9.6.7-1PGDG.rhel7.x86_64.rpm
-#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-server-9.6.7-1PGDG.rhel7.x86_64.rpm
-#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-contrib-9.6.7-1PGDG.rhel7.x86_64.rpm
-#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-devel-9.6.7-1PGDG.rhel7.x86_64.rpm
-#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgis24_96-2.4.3-1.rhel7.x86_64.rpm
- 
+     
     sudo yum install -y git cmake make gcc gcc-c++ libtool policycoreutils-python \
                         php-pgsql php php-pear php-pear-DB php-intl libpqxx-devel \
                         proj-epsg bzip2-devel proj-devel libxml2-devel boost-devel \
@@ -85,8 +76,9 @@
 # CentOS does not automatically create a database cluster. Therefore, start
 # with initializing the database, then enable the server to start at boot:
 
-    sudo postgresql-setup initdb
-    sudo systemctl enable postgresql
+    sudo /usr/pgsql-9.6/bin/postgresql96-setup initdb
+    sudo systemctl enable postgresql-9.6.service
+    sudo systemctl start postgresql-9.6.service
 
 #
 # Next tune the postgresql configuration, which is located in 
@@ -96,7 +88,7 @@
 #
 # Now start the postgresql service after updating this config file.
 
-    sudo systemctl restart postgresql
+#    sudo systemctl restart postgresql
 
 #
 # Finally, we need to add two postgres users: one for the user that does

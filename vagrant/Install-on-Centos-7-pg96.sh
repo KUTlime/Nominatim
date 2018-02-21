@@ -20,12 +20,17 @@
 # Now you can install all packages needed for Nominatim:
 
 #DOCS:    :::sh
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-libs-9.6.7-1PGDG.rhel7.x86_64.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-9.6.7-1PGDG.rhel7.x86_64.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-server-9.6.7-1PGDG.rhel7.x86_64.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-contrib-9.6.7-1PGDG.rhel7.x86_64.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-devel-9.6.7-1PGDG.rhel7.x86_64.rpm
-    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgis24_96-2.4.3-1.rhel7.x86_64.rpm
+    sudo yum -y localinstall https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+    sudo yum -y install postgresql96-server postgresql96-contrib postgresql96-devel postgis24_96 postgis24_96-utils
+    
+    
+    
+#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-libs-9.6.7-1PGDG.rhel7.x86_64.rpm
+#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-9.6.7-1PGDG.rhel7.x86_64.rpm
+#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-server-9.6.7-1PGDG.rhel7.x86_64.rpm
+#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-contrib-9.6.7-1PGDG.rhel7.x86_64.rpm
+#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgresql96-devel-9.6.7-1PGDG.rhel7.x86_64.rpm
+#    sudo yum install -y https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/postgis24_96-2.4.3-1.rhel7.x86_64.rpm
  
     sudo yum install -y git cmake make gcc gcc-c++ libtool policycoreutils-python \
                         php-pgsql php php-pear php-pear-DB php-intl libpqxx-devel \

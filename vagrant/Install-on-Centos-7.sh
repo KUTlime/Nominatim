@@ -61,7 +61,7 @@
 # user name and home directory now like this:
 #
     export USERNAME=gina        #DOCS:    export USERNAME=nominatim
-    export USERHOME=/home/gina  #DOCS:    export USERHOME=/srv/nominatim
+    export USERHOME=/opt/gina  #DOCS:    export USERHOME=/srv/nominatim
 #
 # **Never, ever run the installation as a root user.** You have been warned.
 #
@@ -118,7 +118,8 @@ EOFAPACHECONF
 #DOCS:```
 
     sudo sed -i 's:#.*::' /etc/httpd/conf.d/nominatim.conf #DOCS:
-
+    
+    sudo yum update -y
 #
 # Then reload apache
 #

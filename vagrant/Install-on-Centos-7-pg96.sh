@@ -20,7 +20,7 @@
 # Now you can install all packages needed for Nominatim:
 
 #DOCS:    :::sh
-    sudo yum -y localinstall https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-latest-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+    sudo rpm -Uvh http://yum.postgresql.org/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
     sudo yum -y install postgresql96-server postgresql96-contrib postgresql96-devel postgis24_96 postgis24_96-utils
      
     sudo yum install -y git cmake make gcc gcc-c++ libtool policycoreutils-python \
@@ -73,6 +73,12 @@
 # Setting up PostgreSQL
 # ---------------------
 #
+# Make sure cnake finds pg_config in $PATH
+
+    echo 'pathmunge /usr/pgsql-9.6/bin' | sudo tee -a /etc/profile.d/postgresql96.sh
+    sudo chmod +x /etc/profile.d/postgresql96.sh
+    source /etc/profile
+    
 # CentOS does not automatically create a database cluster. Therefore, start
 # with initializing the database, then enable the server to start at boot:
 

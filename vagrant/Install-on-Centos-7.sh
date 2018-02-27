@@ -188,7 +188,11 @@ EOF
 
     echo '###### Downloading Senegal'
     curl -o /tmp/senegal.pbf 'https://download.geofabrik.de/africa/senegal-and-gambia-latest.osm.pbf'
-
+    
+    sudo firewall-cmd --zone=public --permanent --add-service=http
+    sudo firewall-cmd --zone=public --permanent --add-service=https
+    sudo systemctl restart firewalld.service
+    
     cd $USERHOME/build
     sudo chown -R $USERNAME $USERHOME/build
     ./utils/setup.php --osm-file /tmp/senegal.pbf --all 

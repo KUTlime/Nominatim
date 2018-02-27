@@ -68,7 +68,8 @@
 #
 # Make sure that system servers can read from the home directory:
 
-    sudo chmod a+x $USERHOME
+    sudo mkdir $USERHOME
+    sudo chmod a+x /opt/
 
 # Setting up PostgreSQL
 # ---------------------
